@@ -48,8 +48,8 @@ public class SimpleCalendarTest {
 
     static void printCalendar(Month month, int year) {
 
-        System.out.print("MON\tTUE\tWED\tTHU\tFRI\t");
-        System.out.println(ANSI_RED + "SAT\tSUN\n" + ANSI_RESET);
+        colorfulPrint("MON\tTUE\tWED\tTHU\tFRI\t", ANSI_BLACK);
+        colorfulPrint("SAT\tSUN\n", ANSI_RED);
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
         LocalDate firstDayOfNextMonth = firstDayOfMonth.with(TemporalAdjusters.firstDayOfNextMonth());
@@ -65,12 +65,12 @@ public class SimpleCalendarTest {
         while(!firstDayOfNextMonth.isEqual(date)) {
             //current day is green
             if (date.equals(LocalDate.now())) {
-                colorfulPrint(date.getDayOfMonth(), ANSI_GREEN);
+                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_GREEN);
                 //weekend is red
             } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                colorfulPrint(date.getDayOfMonth(), ANSI_RED);
+                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_RED);
             } else {
-                colorfulPrint(date.getDayOfMonth(), ANSI_BLACK);
+                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_BLACK);
             }
 
             if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
@@ -88,7 +88,8 @@ public class SimpleCalendarTest {
         System.out.println("Available arguments: <none>; <month>; <month> <year>");
     }
 
-    static void colorfulPrint(int day, final String color) {
-        System.out.print(color + day + "\t" + ANSI_RESET);
+    static void colorfulPrint(String string, final String color) {
+        System.out.print(color + string + ANSI_RESET);
     }
+
 }
