@@ -1,5 +1,5 @@
 import java.time.*;
-import java.util.ArrayList;
+import java.time.temporal.TemporalAdjusters;
 
 public class SimpleCalendarTest {
 
@@ -50,38 +50,33 @@ public class SimpleCalendarTest {
         System.out.print("MON\tTUE\tWED\tTHU\tFRI\t");
         System.out.println(ANSI_RED + "SAT\tSUN\n" + ANSI_RESET);
 
-        LocalDate date = LocalDate.of(year, month, 1);
-        DayOfWeek firstDayOfWeek = date.getDayOfWeek();
-        ArrayList<Integer> dates = new ArrayList<>();
-
-        for(Month newMonth = month; newMonth.equals(month); newMonth = date.getMonth()) {
-            dates.add(date.getDayOfMonth());
-            date = date.plusDays(1);
-        }
+        LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
+        LocalDate firstDayOfNextMonth = firstDayOfMonth.with(TemporalAdjusters.firstDayOfNextMonth());
 
         //tabulations until first day
-        for(int i = 1; i < firstDayOfWeek.getValue(); i++) {
+        for(int i = 1; i < firstDayOfMonth.getDayOfWeek().getValue(); i++) {
             System.out.print("\t");
         }
 
         //calendar formatting
-        int day = 0;
-        for(int i = firstDayOfWeek.getValue(); day < dates.size(); i++) {
+        LocalDate date = LocalDate.from(firstDayOfMonth);
+        while(!firstDayOfNextMonth.isEqual(date)) {
+
             //current day is green
-            if(month == LocalDate.now().getMonth() && dates.get(day) == LocalDate.now().getDayOfMonth()) {
-                System.out.print(ANSI_GREEN + dates.get(day) + "\t" + ANSI_RESET);
+            if (date.equals(LocalDate.now())) {
+                System.out.print(ANSI_GREEN + date.getDayOfMonth() + "\t" + ANSI_RESET);
                 //weekend is red
-            } else if((i+1)%7 == 0 || i%7 == 0) {
-                System.out.print(ANSI_RED + dates.get(day) + "\t" + ANSI_RESET);
+            } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                System.out.print(ANSI_RED + date.getDayOfMonth() + "\t" + ANSI_RESET);
             } else {
-                System.out.print(dates.get(day) + "\t");
+                System.out.print(date.getDayOfMonth() + "\t");
             }
 
-            if(i%7 == 0) {
+            if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 System.out.println("\n");
             }
 
-            day++;
+            date = date.plusDays(1);
         }
 
     }
@@ -91,5 +86,4 @@ public class SimpleCalendarTest {
         System.out.println("You can use 0, 1 or 2 arguments.");
         System.out.println("Available arguments: <none>; <month>; <month> <year>");
     }
-
 }
