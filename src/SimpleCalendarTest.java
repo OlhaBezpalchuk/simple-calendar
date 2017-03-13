@@ -6,6 +6,7 @@ public class SimpleCalendarTest {
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_BLACK = "\u001B[30m";
 
     public static void main(String[] args) {
 
@@ -60,16 +61,16 @@ public class SimpleCalendarTest {
 
         //calendar formatting
         LocalDate date = LocalDate.from(firstDayOfMonth);
-        while(!firstDayOfNextMonth.isEqual(date)) {
 
+        while(!firstDayOfNextMonth.isEqual(date)) {
             //current day is green
             if (date.equals(LocalDate.now())) {
-                System.out.print(ANSI_GREEN + date.getDayOfMonth() + "\t" + ANSI_RESET);
+                colorfulPrint(date.getDayOfMonth(), ANSI_GREEN);
                 //weekend is red
             } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                System.out.print(ANSI_RED + date.getDayOfMonth() + "\t" + ANSI_RESET);
+                colorfulPrint(date.getDayOfMonth(), ANSI_RED);
             } else {
-                System.out.print(date.getDayOfMonth() + "\t");
+                colorfulPrint(date.getDayOfMonth(), ANSI_BLACK);
             }
 
             if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
@@ -85,5 +86,9 @@ public class SimpleCalendarTest {
         System.out.println("Wrong arguments. Try again.");
         System.out.println("You can use 0, 1 or 2 arguments.");
         System.out.println("Available arguments: <none>; <month>; <month> <year>");
+    }
+
+    static void colorfulPrint(int day, final String color) {
+        System.out.print(color + day + "\t" + ANSI_RESET);
     }
 }
