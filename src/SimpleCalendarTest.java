@@ -50,14 +50,13 @@ public class SimpleCalendarTest {
         System.out.print("MON\tTUE\tWED\tTHU\tFRI\t");
         System.out.println(ANSI_RED + "SAT\tSUN\n" + ANSI_RESET);
 
-        Period period = Period.of(0, 0, 1);             //one day
         LocalDate date = LocalDate.of(year, month, 1);
         DayOfWeek firstDayOfWeek = date.getDayOfWeek();
         ArrayList<Integer> dates = new ArrayList<>();
 
         for(Month newMonth = month; newMonth.equals(month); newMonth = date.getMonth()) {
             dates.add(date.getDayOfMonth());
-            date = date.plus(period);
+            date = date.plusDays(1);
         }
 
         //tabulations until first day
