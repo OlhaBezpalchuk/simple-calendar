@@ -12,7 +12,7 @@ public class SimpleCalendarTest {
         Month month;
         int year = LocalDate.now().getYear();
 
-        switch (args.length){
+        switch (args.length) {
             case 0:
                 //if no parameters, generate default calendar (for current month and current year)
                 month = LocalDate.now().getMonth();
@@ -22,8 +22,7 @@ public class SimpleCalendarTest {
                 try {
                     month = Month.valueOf(args[0].toUpperCase());
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Wrong argument. Try again.");
-                    System.out.println("Available arguments: <none>; <month>; <month> <year>");
+                    printMessage();
                     return;
                 }
                 break;
@@ -33,15 +32,12 @@ public class SimpleCalendarTest {
                     month = Month.valueOf(args[0].toUpperCase());
                     year = Integer.parseInt(args[1]);
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Wrong argument. Try again.");
-                    System.out.println("Available arguments: <none>; <month>; <month> <year>");
+                    printMessage();
                     return;
                 }
                 break;
             default:
-                System.out.println("Wrong number of arguments. Try again.");
-                System.out.println("You can use 0, 1 or 2 arguments.");
-                System.out.println("Available arguments: <none>; <month>; <month> <year>");
+                printMessage();
                 return;
         }
 
@@ -58,6 +54,7 @@ public class SimpleCalendarTest {
         LocalDate date = LocalDate.of(year, month, 1);
         DayOfWeek firstDayOfWeek = date.getDayOfWeek();
         ArrayList<Integer> dates = new ArrayList<>();
+
         for(Month newMonth = month; newMonth.equals(month); newMonth = date.getMonth()) {
             dates.add(date.getDayOfMonth());
             date = date.plus(period);
@@ -74,7 +71,7 @@ public class SimpleCalendarTest {
             //current day is green
             if(month == LocalDate.now().getMonth() && dates.get(day) == LocalDate.now().getDayOfMonth()) {
                 System.out.print(ANSI_GREEN + dates.get(day) + "\t" + ANSI_RESET);
-            //weekend is red
+                //weekend is red
             } else if((i+1)%7 == 0 || i%7 == 0) {
                 System.out.print(ANSI_RED + dates.get(day) + "\t" + ANSI_RESET);
             } else {
@@ -88,6 +85,12 @@ public class SimpleCalendarTest {
             day++;
         }
 
+    }
+
+    static void printMessage() {
+        System.out.println("Wrong arguments. Try again.");
+        System.out.println("You can use 0, 1 or 2 arguments.");
+        System.out.println("Available arguments: <none>; <month>; <month> <year>");
     }
 
 }
