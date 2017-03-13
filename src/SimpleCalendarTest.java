@@ -1,5 +1,8 @@
+import java.text.DateFormatSymbols;
 import java.time.*;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Locale;
 
 public class SimpleCalendarTest {
 
@@ -48,8 +51,10 @@ public class SimpleCalendarTest {
 
     static void printCalendar(Month month, int year) {
 
-        colorfulPrint("MON\tTUE\tWED\tTHU\tFRI\t", ANSI_BLACK);
-        colorfulPrint("SAT\tSUN\n", ANSI_RED);
+        for(DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            System.out.print(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase() + "\t");
+        }
+        System.out.println("\n");
 
         LocalDate firstDayOfMonth = LocalDate.of(year, month, 1);
         LocalDate firstDayOfNextMonth = firstDayOfMonth.with(TemporalAdjusters.firstDayOfNextMonth());
