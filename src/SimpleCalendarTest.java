@@ -61,17 +61,21 @@ public class SimpleCalendarTest {
 
         //calendar formatting
         LocalDate date = LocalDate.from(firstDayOfMonth);
+        String color;
 
         while(!firstDayOfNextMonth.isEqual(date)) {
             //current day is green
             if (date.equals(LocalDate.now())) {
-                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_GREEN);
+                color = ANSI_GREEN;
                 //weekend is red
             } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_RED);
+                color = ANSI_RED;
+                //other days are black
             } else {
-                colorfulPrint(date.getDayOfMonth() + "\t", ANSI_BLACK);
+                color = ANSI_BLACK;
             }
+
+            colorfulPrint(date.getDayOfMonth() + "\t", color);
 
             if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 System.out.println("\n");
