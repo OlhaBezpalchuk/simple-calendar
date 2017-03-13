@@ -50,7 +50,7 @@ public class SimpleCalendarTest {
     }
 
     static void printCalendar(Month month, int year) {
-
+        //display weekday names
         for(DayOfWeek dayOfWeek : DayOfWeek.values()) {
             System.out.print(dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH).toUpperCase() + "\t");
         }
@@ -69,18 +69,7 @@ public class SimpleCalendarTest {
         String color;
 
         while(!firstDayOfNextMonth.isEqual(date)) {
-            //current day is green
-            if (date.equals(LocalDate.now())) {
-                color = ANSI_GREEN;
-                //weekend is red
-            } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                color = ANSI_RED;
-                //other days are black
-            } else {
-                color = ANSI_BLACK;
-            }
-
-            colorfulPrint(date.getDayOfMonth() + "\t", color);
+            colorfulPrint(date.getDayOfMonth() + "\t", dateColor(date));
 
             if(date.getDayOfWeek() == DayOfWeek.SUNDAY) {
                 System.out.println("\n");
@@ -99,6 +88,19 @@ public class SimpleCalendarTest {
 
     static void colorfulPrint(String string, final String color) {
         System.out.print(color + string + ANSI_RESET);
+    }
+
+    static String dateColor(LocalDate date) {
+        //current day is green
+        if (date.equals(LocalDate.now())) {
+            return ANSI_GREEN;
+            //weekend is red
+        } else if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+            return ANSI_RED;
+            //other days are black
+        } else {
+            return ANSI_BLACK;
+        }
     }
 
 }
